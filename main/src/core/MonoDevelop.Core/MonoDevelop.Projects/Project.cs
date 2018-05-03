@@ -2370,6 +2370,7 @@ namespace MonoDevelop.Projects
 			}
 			NotifyModified ("Files");
 			OnFileRemovedFromProject (args);
+			ParentSolution?.OnRootDirectoriesChanged ();
 		}
 
 		void NotifyFileAddedToProject (IEnumerable<ProjectFile> objs)
@@ -2386,6 +2387,9 @@ namespace MonoDevelop.Projects
 
 			NotifyModified ("Files");
 			OnFileAddedToProject (args);
+
+			if (!Loading)
+				ParentSolution?.OnRootDirectoriesChanged ();
 		}
 
 		internal void UpdateDependency (ProjectFile file, FilePath oldPath)
