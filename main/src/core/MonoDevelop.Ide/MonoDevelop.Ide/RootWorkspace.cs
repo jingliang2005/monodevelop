@@ -1056,9 +1056,6 @@ namespace MonoDevelop.Ide
 			}
 			MonoDevelop.Ide.TypeSystem.TypeSystemService.Unload (item);
 
-			if (lastWorkspaceItemClosing)
-				MonoDevelop.Ide.TypeSystem.MetadataReferenceCache.Clear ();
-
 			NotifyDescendantItemRemoved (this, args);
 		}
 		
