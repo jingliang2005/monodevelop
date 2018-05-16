@@ -616,7 +616,7 @@ namespace MonoDevelop.Ide
 				if (!monitor.CancellationToken.IsCancellationRequested) {
 					item.SetShared ();
 					Items.Add (item);
-					FileWatcherService.Add (item);
+					await FileWatcherService.Add (item);
 				}
 				else {
 					item.Dispose ();
