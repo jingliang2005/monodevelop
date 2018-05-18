@@ -369,6 +369,15 @@ namespace MonoDevelop.Ide.BuildOutputView
 			}
 		}
 
+		internal bool IsClickable (BuildOutputNode selectedNode, Point position)
+		{
+			var status = GetViewStatus (selectedNode);
+			if (status != null) {
+				return status.LastRenderBounds.Contains (position) && !status.LastRenderExpanderBounds.Contains (position);
+			}
+			return false;
+		}
+
 		void DrawNodeInformation (Context ctx, Xwt.Rectangle cellArea, BuildOutputNode buildOutputNode, double padding, bool isSelected, int imageSize, int imagePadding, ViewStatus status)
 		{
 			if (!buildOutputNode.HasChildren) {
@@ -486,7 +495,8 @@ namespace MonoDevelop.Ide.BuildOutputView
 			// in collapsed state we have always the same height and require the minimal width
 			// if the layout height has not been calculated yet, use the ImageSize for the height
 			if (!status.Expanded) {
-				return new Size (minWidth, status.CollapsedRowHeight > -1 ? status.CollapsedRowHeight : ImageSize);
+				var sz = new Size (minWidth, status.CollapsedRowHeight > -1 ? status.CollapsedRowHeight : ImageSize);
+				return sz;
 			}
 
 			double maxLayoutWidth;
@@ -500,7 +510,8 @@ namespace MonoDevelop.Ide.BuildOutputView
 			var textSize = layout.GetSize ();
 			var height = Math.Max (textSize.Height + 2 * status.LayoutYPadding, DefaultRowHeight);
 
-			return new Size (minWidth, height);
+			var size = new Size (minWidth, height);
+			return size;
 		}
 
 		bool IsBackgroundColorFieldSet ()
@@ -543,7 +554,7 @@ namespace MonoDevelop.Ide.BuildOutputView
 				ParentWidget.Cursor = CursorType.Arrow;
 			}
 
-			CalcLayout (status, Bounds, out var layout, out var layoutBounds, out var expanderRect);
+			CalcLayout (status, status.LastRenderBounds, out var layout, out var layoutBounds, out var expanderRect);
 
 			var insideText = layoutBounds.Contains (args.Position);
 			if (clicking && insideText && selectionRow == node) {
@@ -583,7 +594,7 @@ namespace MonoDevelop.Ide.BuildOutputView
 
 			}
 
-			CalcLayout (status, Bounds, out var layout, out var layoutBounds, out var expanderRect);
+			CalcLayout (status, status.LastRenderBounds, out var layout, out var layoutBounds, out var expanderRect);
 
 			if (expanderRect != Rectangle.Zero && expanderRect.Contains (args.Position)) {
 				status.Expanded = !status.Expanded;
@@ -618,7 +629,7 @@ namespace MonoDevelop.Ide.BuildOutputView
 		{
 			if (clicking) {
 				clicking = false;
-				QueueDraw ();
+				//QueueDraw ();
 			}
 			base.OnButtonReleased (args);
 		}
