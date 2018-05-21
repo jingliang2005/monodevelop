@@ -55,6 +55,7 @@ using System.Diagnostics;
 using Xwt.Mac;
 using MonoDevelop.Components.Mac;
 using System.Reflection;
+using MacPlatform;
 
 namespace MonoDevelop.MacIntegration
 {
@@ -1142,6 +1143,8 @@ namespace MonoDevelop.MacIntegration
 			proc.StartInfo = psi;
 			proc.Start ();
 		}
+
+		internal override IPlatformTelemetryDetails PlatformTelemetryDetails () => new MacTelemetryDetails ();
 	}
 
 	public class ThemedMacWindowBackend : Xwt.Mac.WindowBackend

@@ -402,5 +402,7 @@ namespace MonoDevelop.Ide
 		}
 
 		internal static string GetNativeRuntimeDescription () => PlatformService.GetNativeRuntimeDescription ();
+
+		internal static IPlatformTelemetryDetails PlatformTelemetry () => PlatformService.PlatformTelemetryDetails ();
 	}
 }

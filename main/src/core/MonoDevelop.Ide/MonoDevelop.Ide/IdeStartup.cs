@@ -679,6 +679,16 @@ namespace MonoDevelop.Ide
 			metadata ["AssetTypeId"] = assetType.Id.ToString ();
 			metadata ["AssetTypeName"] = assetType.Name;
 
+			var platform = DesktopService.PlatformTelemetry ();
+			metadata ["TimeFromMachineStart"] = platform.TimeSinceMachineStart.ToString ();
+			metadata ["CpuArchitecture"] = platform.CpuArchitecture;
+			metadata ["CpuFamily"] = platform.CpuFamily.ToString ();
+			metadata ["CpuFrequency"] = platform.CpuFrequency.ToString ();
+			metadata ["HardDriveTotalVolumeSize"] = platform.HardDriveTotalVolumeSize.ToString ();
+			metadata ["HardDriveFreeVolumeSize"] = platform.HardDriveFreeVolumeSize.ToString ();
+			metadata ["RamTotal"] = platform.RamTotal.ToString ();
+			metadata ["HardDriveOsMediaType"] = platform.HardDriveOsMediaType.ToString ();
+
 			return metadata;
 		}
 
